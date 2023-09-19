@@ -8,8 +8,32 @@ class FileStorage:
     __file_path = 'file.json'
     __objects = {}
 
+    @property
+    def cities(self):
+        """Returns Cities in state"""
+
+    def delete(self, obj=None):
+        """loops through __objects, comparing each value
+        of key with cls argument ie object
+        """
+        if obj:
+            id = obj.to_dict()["id"]
+            className = obj.to_dict()["__class__"]
+            keyName = className+"."+id
+            if keyName in FileStorage.__objects:
+                del (FileStorage.__objects[keyName])
+                self.save()
+
     def all(self):
         """Returns a dictionary of models currently in storage"""
+        print_dict = {}
+        if cls:
+            className = cls.__name__
+            for k, v in FileStorage.__objects.items():
+                if k.split('.')[0] == className:
+                    print_dict[k] = str(v)
+            return print_dict
+        else:
         return FileStorage.__objects
 
     def new(self, obj):
