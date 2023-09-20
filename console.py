@@ -48,12 +48,14 @@ class HBNBCommand(cmd.Cmd):
             "city_id",
             "user_id",
             "name",
+	    "description",
             "number_rooms",
             "number_bathrooms",
             "max_guest",
             "price_by_night",
             "latitude",
             "longitude",
+	    "amenity_ids"
         ],
         "Amenity": ["id", "created_at", "updated_at", "name"],
         "Review": ["id", "created_at", "updated_at",
@@ -61,11 +63,14 @@ class HBNBCommand(cmd.Cmd):
     }
 
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
-    types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+     types = {
+        "number_rooms": int,
+        "number_bathrooms": int,
+        "max_guest": int,
+        "price_by_night": int,
+        "latitude": float,
+        "longitude": float,
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -110,13 +115,16 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] == '{' and pline[-1] == '}'\
-                            and type(eval(pline)) is dict:
-                        _args = pline
+                    if (
+                        pline[0] == '{'
+                        and pline[-1] == '}'
+                        and type(eval(pline)) is dict:
+		    ):
+			_args = pline
                     else:
                         _args = pline.replace(',', '')
                         # _args = _args.replace('\"', '')
-            line = ' '.join([_cmd, _cls, _id, _args])
+            line = " ".join([_cmd, _cls, _id, _args])
 
         except Exception as mess:
             pass
